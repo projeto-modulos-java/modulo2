@@ -1,0 +1,66 @@
+services:
+  gateway:
+    build: router/
+    ports:
+      - "8080:8080"
+  
+  auth:
+    build: auth/
+    depends_on:
+      graylog-logs:
+        condition: service_started
+
+  graylog-logs:
+      image: graylog/graylog:7.0.0
+      depends_on:
+        mongo:
+          condition: service_started
+      ports:
+        - "9000:9000"
+        - "5555:5555"
+        - "13301:13301/tcp" # Forwarder data
+        - "13302:13302/tcp" # Forwarder config
+      environment:
+        GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
+        GRAYLOG_MONGODB_URI: mongodb://root:root@mongo/graylog?authSource=admin
+        GRAYLOG_PASSWORD_SECRET: mypasswordpassword
+        GRAYLOG_ROOT_PASSWORD_SHA2: c8a97abf27915e957a990ecb381cd2400f97af61176b4a73e828330dfeaeef35
+
+  datanode:
+    image: graylog/graylog-datanode:7.0
+    mem_limit: 3gb
+    deploy:
+      resources:
+        limits:
+          memory: 3gb
+    depends_on:
+      mongo:
+        condition: service_started
+    ports:
+      - "8999:8999"  # Graylog Data Node REST API
+      - "9200:9200"  # OpenSearch REST API
+      - "9300:9300"  # OpenSearch Transport API
+    environment:
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: mypasswordpassword
+      GRAYLOG_DATANODE_ROOT_USERNAME: root
+      GRAYLOG_DATANODE_MONGODB_URI: mongodb://root:root@mongo/graylog?authSource=admin
+    restart: on-failure
+    
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: mydb
