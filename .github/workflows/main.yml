@@ -29,12 +29,12 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ secrets.DOCKER_USERNAME }}/modulo1
+        images: ${{ secrets.DOCKER_USERNAME }}/modulo2-auth
         tags: |
           type=raw,value=latest
           type=sha,format=short
       
-    - name: Construir e Enviar (Push) a Imagem
+    - name: Construir e Enviar a Imagem
       uses: docker/build-push-action@v5
       with:
         context: ./auth
@@ -46,7 +46,7 @@ jobs:
       id: meta2
       uses: docker/metadata-action@v5
       with:
-        images: ${{ secrets.DOCKER_USERNAME }}/modulo2
+        images: ${{ secrets.DOCKER_USERNAME }}/modulo2-login
         tags: |
           type=raw,value=latest
           type=sha,format=short
