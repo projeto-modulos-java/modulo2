@@ -59,7 +59,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ secrets.DOCKER_USERNAME }}/seu-nome-de-repo # Ex: meuusuario/minha-app
+        images: ${{ secrets.DOCKER_USERNAME }}/modulo2 # Ex: meuusuario/minha-app
         tags: |
           type=raw,value=latest
           type=sha,format=short
