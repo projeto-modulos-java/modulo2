@@ -37,7 +37,24 @@ jobs:
     - name: Construir e Enviar (Push) a Imagem
       uses: docker/build-push-action@v5
       with:
-        context: . # Onde está o Dockerfile (padrão é o diretório raiz)
-        push: true # Faz o push para o Docker Hub
-        tags: ${{ steps.meta.outputs.tags }} # Usa as tags definidas na etapa anterior
+        context: ./auth
+        push: true 
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+
+    - name: Definir tags
+      id: meta2
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ secrets.DOCKER_USERNAME }}/modulo2
+        tags: |
+          type=raw,value=latest
+          type=sha,format=short
+      
+    - name: Construir e Enviar a Imagem
+      uses: docker/build-push-action@v5
+      with:
+        context: ./router
+        push: true 
+        tags: ${{ steps.meta2.outputs.tags }}
+        labels: ${{ steps.meta2.outputs.labels }}
