@@ -1,4 +1,4 @@
-package com.modulo2.auth.controllers.exceptions;
+package com.modulo2.auth.controllers.exception;
 
 public class LoginException extends Exception {
     private final String message;
