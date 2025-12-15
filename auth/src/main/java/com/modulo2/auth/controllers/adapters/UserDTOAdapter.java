@@ -17,7 +17,7 @@ public class UserDTOAdapter {
     }
 
     public List<UserResponse> adaptResponse(List<User> users){
-        return users.stream().map((user) -> new UserResponse(user.getId(), user.getNome(), user.getEmail(), user.getDtaNasc(), user.isAtivo())).toList();
+        return users.stream().map(user -> new UserResponse(user.getId(), user.getNome(), user.getEmail(), user.getDtaNasc(), user.isAtivo())).toList();
     }
 
     public UserResponse adaptResponse(User user){

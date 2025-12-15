@@ -37,9 +37,9 @@ public class JWTFilter implements Filter{
         ObjectMapper mapper = new ObjectMapper();
         Permission perm = mapper.convertValue(permissions, Permission.class);
 
-        ArrayList<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        ArrayList<GrantedAuthority> list = new ArrayList<>();
 
-        if(perm.user) list.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if(perm.isUser()) list.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return list;
     }

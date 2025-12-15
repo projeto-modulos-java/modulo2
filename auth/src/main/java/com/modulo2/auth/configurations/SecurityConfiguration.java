@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain filterchain(HttpSecurity http){
         return http
-        .authorizeHttpRequests((auth) -> 
+        .authorizeHttpRequests(auth -> 
             auth
             .requestMatchers("/me")
             .authenticated()
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
             .permitAll()
         )
         .addFilterBefore(jwtFilter, AnonymousAuthenticationFilter.class)
-        .csrf((csrf) -> csrf.disable())
+        .csrf(csrf -> csrf.disable())
         .build();
     }
 

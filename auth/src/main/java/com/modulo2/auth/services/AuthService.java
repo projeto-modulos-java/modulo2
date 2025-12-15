@@ -7,13 +7,14 @@ import com.modulo2.auth.entities.User;
 import com.modulo2.auth.repositories.UserRepository;
 import com.modulo2.auth.repositories.entities.UserEntity;
 import com.modulo2.auth.services.adapters.UserAdapter;
+import com.modulo2.auth.services.exception.UserLoginException;
 
 
 @Service
 public class AuthService{ 
-    final private UserRepository repository;
-    final private PasswordEncoder passwordEncoder;
-    final private UserAdapter adapter;
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserAdapter adapter;
 
     public AuthService(UserRepository repository, PasswordEncoder passwordEncoder, UserAdapter adapter) {
         this.repository = repository;
@@ -21,18 +22,18 @@ public class AuthService{
         this.adapter = adapter;
     }
 
-    public User login(String email, String password) throws Exception{
+    public User login(String email, String password) throws UserLoginException{
         User user = adapter.adaptUser(this.repository.findByEmail(email).orElse(new UserEntity()));
         if(passwordEncoder.matches(password, user.getPassword())){
             return user;
         } else {
-            throw new Exception("Usuario com nome ou senha incorretos");
+            throw new UserLoginException("Usuario com nome ou senha incorretos");
         }
     }
 
-    public void create(User user) throws Exception{
-        if(this.repository.findByEmail(user.getEmail()).isPresent()){;
-            throw new Exception("Email ja utilizado");
+    public void create(User user) throws UserLoginException{
+        if(this.repository.findByEmail(user.getEmail()).isPresent()){
+            throw new UserLoginException("Email ja utilizado");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(adapter.adaptUser(user));

@@ -2,6 +2,8 @@ package com.modulo2.auth.configurations.security;
 
 import java.util.Date;
 
+import javax.security.auth.login.LoginException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,7 @@ public class JWTProvider {
     @Value("${login-service.key}")
     private String secret;
 
-    public String createToken(String sub, Date expires) throws Exception{
+    public String createToken(String sub, Date expires) throws LoginException{
         try {
             JWSSigner signer = new MACSigner(secret);
 
@@ -34,7 +36,7 @@ public class JWTProvider {
 
             return signedJWT.serialize();
         } catch (Exception e){
-            throw new Exception("Erro ao criar token jwt");
+            throw new LoginException("Erro ao criar token jwt");
         }
     }
 }

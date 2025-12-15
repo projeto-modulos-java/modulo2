@@ -1,7 +1,5 @@
 package com.modulo2.auth;
 
-import java.util.Date;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

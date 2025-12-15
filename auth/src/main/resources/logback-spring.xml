@@ -9,14 +9,13 @@
    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
     <remoteHost>graylog-logs</remoteHost>
     <port>5555</port>
-    <reconnectionDelay>0</reconnectionDelay>
+    <reconnectionDelay>5000</reconnectionDelay>
   </appender>
 
   <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="SOCKET" />
   </appender>
-
-
+  
   <root level="INFO">
     <appender-ref ref="ASYNC" />
     <appender-ref ref="STDOUT" />
