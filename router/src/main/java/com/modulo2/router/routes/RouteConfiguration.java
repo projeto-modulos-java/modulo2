@@ -19,7 +19,6 @@ public class RouteConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> getRoute(){
-        System.out.println(loginUrl);
         return route()
         .route(path("/auth/**") , http())
         .before(uri(loginUrl))
