@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.modulo2.auth.controllers.exceptions.LoginException;
+import com.modulo2.auth.controllers.exception.LoginException;
 import com.modulo2.auth.services.exception.UserLoginException;
 
 @ControllerAdvice
