@@ -12,13 +12,13 @@ import com.modulo2.auth.services.exception.UserLoginException;
 @ControllerAdvice
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(UserLoginException.class)
     public ResponseEntity<Object> handleException(UserLoginException exception){
         return ResponseEntity.status(exception.getStatus()).body(new Error(exception.getMessage(), LocalDateTime.now()));
     }
 
-     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(LoginException exception){
+     @ExceptionHandler(LoginException.class)
+    public ResponseEntity<Object> handleLoginException(LoginException exception){
         return ResponseEntity.status(exception.getStatus()).body(new Error(exception.getMessage(), LocalDateTime.now()));
     }
 
